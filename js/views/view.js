@@ -1,27 +1,29 @@
 var view = {
     profile: function (error, profile_object) {
-        c = document.getElementById("container");
-        c.innerHTML = "";
         if (error) {
-            c.innerHTML = error;
+            alert(error);
         } else {
+            c = document.getElementById("container");
+            c.innerHTML = "";
             var name = document.createElement("p");
             name.innerHTML = "Name: " + profile_object.name;
             var age = document.createElement("p");
             age.innerHTML = "Age: " + profile_object.age;
             var hobbies = document.createElement("p");
-            hobbies.innerHTML = "Age: " + profile_object.hobbies;
+            hobbies.innerHTML = "Hobbies: " + profile_object.hobbies;
             c.appendChild(name);
             c.appendChild(age);
             c.appendChild(hobbies);
             var button = document.createElement("button");
+            button.setAttribute("id", profile_object.id);
             button.setAttribute("class", "inline");
-            button.setAttribute("onclick", "handler.edit(" + profile_object.id + ");");
+            button.setAttribute("onclick", "handler.edit(this.id);");
             button.innerHTML = "Edit";
             c.appendChild(button);
             button = document.createElement("button");
+            button.setAttribute("id", profile_object.id);
             button.setAttribute("class", "inline");
-            button.setAttribute("onclick", "handler.delete(" + profile_object.id + ");");
+            button.setAttribute("onclick", "handler.delete(this.id);");
             button.innerHTML = "Delete";
             c.appendChild(button);
         }

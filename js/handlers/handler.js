@@ -8,40 +8,40 @@ var handler = {
     },
     add: function () {
         var name = document.getElementById("name").value.trim();
-        var age = Number(document.getElementById("age").value.trim());
+        var age = document.getElementById("age").value.trim();
         var hobbies = document.getElementById("hobbies").value.trim();
         var object = {
             name: name,
             age: age,
             hobbies: hobbies
         }
-        error = this.prevalidate(object);
+        controller.add(object);
+        /*error = this.prevalidate(object);
         if (error) { alert(error); }
-        else { controller.add(object); }
+        else { controller.add(object); }*/
     },
     edit: function (id) {
         controller.edit(id);
     },
     update: function (id) {
         var name = document.getElementById("name").value.trim();
-        var age = Number(document.getElementById("age").value.trim());
+        var age = document.getElementById("age").value.trim();
         var hobbies = document.getElementById("hobbies").value.trim();
         var object = {
             name: name,
             age: age,
             hobbies: hobbies
         }
-        error = this.prevalidate(object);
+        controller.update(Number(id), object);
+        /*error = this.prevalidate(object);
         if (error) { alert(error); }
-        else { controller.update(id, object); }
-        
-        controller.update(id, object);
+        else { controller.update(Number(id), object); }*/
     },
     delete: function (id) {
         if (confirm("Are you sure you want to delete this profile?")) {
             controller.delete(id);
         }
-    },
+    }/*,
     prevalidate: function (object) {
         error = "";
         if (isNaN(object.age)) {
@@ -50,5 +50,5 @@ var handler = {
             error = "The name field is mandatory";
         }
         return error;
-    }
+    }*/
 };

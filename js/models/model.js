@@ -24,7 +24,10 @@ var model = {
     update: function (entry_id, new_value, callback) {
         var error = this.validate(new_value);
         if (!error) {
-            if (this.db[entry_id] != undefined) { this.db[entry_id] = new_value; }
+            if (this.db[entry_id] != undefined) {
+                new_value.id = entry_id;
+                this.db[entry_id] = new_value;
+            }
             else { error = "Error: object with the ID #" + entry_id + " does not exist." }
         }
         callback(error, this.db[entry_id]);
@@ -43,21 +46,28 @@ var model = {
     validate: function (object) {
         var error = "";
         for (var key in object) {
+
+            if (object[key] && !isNaN(object[key])) { object[key] = Number(object[key]); }
+
             if (this.schema[key] == undefined) {
-                //object[key] = undefined;
                 error += "Error: object contains illegal extra parameters.\n"
+            } else if (!object[key]) {
+                if (this.schema[key].required) {
+                    error += "Error: the " + key + " field is mandatory.\n";
+                    //object[key] = this.schema[key].fallback;
+                }
             } else if (typeof (object[key]) != this.schema[key].type) {
                 if (this.schema[key].required) {
-                    object[key] = this.schema[key].fallback;
+                    error += "Error: entered wrong datatype for mandatory " + key + " field.\n";
+                    //object[key] = this.schema[key].fallback;
                 } else {
-                    //object[key] = undefined;
-                    error += "Error: entered wrong datatype for (optional) " + key + " property.\n";
+                    error += "Error: entered wrong datatype for (optional) " + key + " field.\n";
                 }
             }
         }
         for (var key in this.schema) {
             if (this.schema[key].required && object[key] == undefined) {
-                error += "Error: you have not entered a " + key + " property.\n";
+                error += "Error: you have not entered your " + key + ".\n";
             }
         }
         return error;
@@ -99,6 +109,7 @@ var model = {
         name: { type: 'string', required: true, fallback: 'nuts' },
         age: { type: 'number', required: false },
         hobbies: { type: 'string', required: false },
+        id: { type: 'number', required: false },
         extra_properties: false
     }
 };
