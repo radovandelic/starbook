@@ -8,6 +8,7 @@ var model = {
     create: function (new_object, callback) {
         var error = this.validate(new_object);
         if (!error) {
+            new_object.id = this.id;
             this.db[this.id] = new_object;
             this.id++;
         }

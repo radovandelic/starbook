@@ -5,8 +5,11 @@ var controller = {
     add: function (object) {
         model.create(object, view.profile);
     },
+    edit: function(id){
+        model.read(id, view.edit);
+    },
     update: function (id, object) {
-        model.update(id, update, view.profile);
+        model.update(id, object, view.profile);
     },
     delete: function (id) {
         model.remove(id, view.home);
@@ -14,4 +17,4 @@ var controller = {
     home: function () {
         view.home(Object.assign({}, model.db));
     }
-}
+};
